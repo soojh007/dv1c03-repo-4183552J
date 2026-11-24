@@ -14,6 +14,10 @@ pipeline {
 
         stage('STG2-4183552J') {
             steps {
+                sh '''
+                docker rm -f CCWA-4183552J-appsvr || true
+                docker run -d --name CCWA-4183552J-appsvr -p 33100:80 ccwa-4183552j-temp-svr-image apache2ctl -D FOREGROUND
+                '''
                 echo "STG2-4183552J: CCWA App Server is setup and running"
             }
         }
