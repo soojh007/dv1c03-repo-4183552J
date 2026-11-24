@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('H/3 * * * *')
+    }
+
+    stages {
+        stage('STG1-4183552J') {
+            steps {
+                echo "STG1-4183552J: Release environment For CCWA is ready."
+            }
+        }
+
+        stage('STG2-4183552J') {
+            steps {
+                echo "STG2-4183552J: CCWA App Server is setup and running"
+            }
+        }
+
+        stage('STG3-4183552J') {
+            parallel {
+                stage('CCWA-Scope1-4183552J') {
+                    steps {
+                        echo "Scope1 Validation Status Generated"
+                    }
+                }
+                stage('CCWA-Scope2-4183552J') {
+                    steps {
+                        echo "Scope2 Validation Status Generated"
+                    }
+                }
+                stage('CCWA-Scope3-4183552J') {
+                    steps {
+                        echo "Scope3 Validation Status Generated"
+                    }
+                }
+            }
+        }
+
+        stage('STG4-4183552J') {
+            steps {
+                input message: 'After validation, proceed or abort the pipeline?', ok: 'Proceed'
+                echo "STG4-4183552J: Approve to continue the pipeline."
+            }
+        }
+
+        stage('STG5-4183552J') {
+            steps {
+                echo "STG5-4183552J: Getting ready for next phase"
+            }
+        }
+    }
+}
