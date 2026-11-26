@@ -1,3 +1,4 @@
+// Trigger automated Poll SCM build
 pipeline {
     agent any
 
